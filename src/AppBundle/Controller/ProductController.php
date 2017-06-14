@@ -11,25 +11,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ProductController
+ * @package AppBundle\Controller
+ * @Route("/product")
+ */
 class ProductController extends FOSRestController
 {
     /**
      * @Rest\View(serializerGroups={"list"})
-     * @Route("/product")
+     * @Route("")
      * @Method("GET")
      */
     public function indexAction()
     {
         $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findAllWithPurchases();
-        return View::create(['products' => $products]);
+        return ['products' => $products];
     }
 
     /**
      * @Rest\View(serializerGroups={"list"})
      * @param Product $product
      * @return Product
-     * @Route("/product/{id}")
+     * @Route("/{id}")
      * @Method("GET")
      */
     public function detailAction(Product $product)
@@ -39,8 +45,10 @@ class ProductController extends FOSRestController
 
     /**
      * @Rest\View(serializerGroups={"list"})
-     * @Route("/product")
+     * @Route("")
      * @Method("POST")
+     * @param Request $request
+     * @return Form|Response
      */
     public function createAction(Request $request)
     {
@@ -56,7 +64,7 @@ class ProductController extends FOSRestController
                 $em->persist($product);
                 $em->flush();
             }
-            return View::create(['products' => [$product]]);
+            return $this->handleView(View::create(['products' => [$product]]));
         }
         return $form;
     }
@@ -64,7 +72,7 @@ class ProductController extends FOSRestController
     /**
      * @param Product $product
      * @param Request $request
-     * @Route("/product/{id}")
+     * @Route("/{id}")
      * @return Form | null
      * @Method("PUT");
      */
@@ -83,7 +91,7 @@ class ProductController extends FOSRestController
 
     /**
      * @param Product $product
-     * @Route("/product/{id}")
+     * @Route("/{id}")
      * @Method("DELETE")
      */
     public function deleteAction(Product $product)

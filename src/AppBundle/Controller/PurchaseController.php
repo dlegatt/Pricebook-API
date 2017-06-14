@@ -12,11 +12,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class PurchaseController
+ * @package AppBundle\Controller
+ * @Route("/purchase")
+ */
 class PurchaseController extends FOSRestController
 {
     /**
      * @Rest\View(serializerGroups={"list"})
-     * @Route("/purchase")
+     * @Route("")
      * @Method("GET")
      */
     public function indexAction()
@@ -28,7 +33,7 @@ class PurchaseController extends FOSRestController
     }
 
     /**
-     * @Route("/purchase/{id}")
+     * @Route("/{id}")
      * @Method("GET")
      * @Rest\View(serializerGroups={"list"})
      */
@@ -40,7 +45,7 @@ class PurchaseController extends FOSRestController
     /**
      * @param Request $request
      * @return View|\Symfony\Component\Form\Form
-     * @Route("/purchase")
+     * @Route("")
      * @Method("POST")
      * @Rest\View(serializerGroups={"list"})
      */
@@ -62,7 +67,7 @@ class PurchaseController extends FOSRestController
      * @param Purchase $purchase
      * @param Request $request
      * @return null|\Symfony\Component\Form\Form
-     * @Route("/purchase/{id}")
+     * @Route("/{id}")
      * @Method("PUT")
      */
     public function editAction(Purchase $purchase, Request $request)
@@ -81,7 +86,7 @@ class PurchaseController extends FOSRestController
     /**
      * @param Purchase $purchase
      * @return null
-     * @Route("/purchase/{id}")
+     * @Route("/{id}")
      * @Method("DELETE")
      */
     public function deleteAction(Purchase $purchase)

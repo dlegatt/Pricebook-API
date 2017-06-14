@@ -45,6 +45,12 @@ class Purchase
     private $quantity;
 
     /**
+     * @var Store
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Store", inversedBy="purchases")
+     */
+    private $store;
+
+    /**
      * Get id
      *
      * @return int
@@ -127,5 +133,40 @@ class Purchase
     public function getProductId()
     {
         return $this->getProduct()->getId();
+    }
+
+    /**
+     * @return int
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("store_id")
+     * @JMS\Groups({"list"})
+     */
+    public function getStoreId()
+    {
+        return $this->getStore()->getId();
+    }
+
+    /**
+     * Set store
+     *
+     * @param \AppBundle\Entity\Store $store
+     *
+     * @return Purchase
+     */
+    public function setStore(\AppBundle\Entity\Store $store = null)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * Get store
+     *
+     * @return \AppBundle\Entity\Store
+     */
+    public function getStore()
+    {
+        return $this->store;
     }
 }
