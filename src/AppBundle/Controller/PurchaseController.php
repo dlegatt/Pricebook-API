@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Purchase;
+use AppBundle\Factory\PurchaseFactory;
 use AppBundle\Form\PurchaseType;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
@@ -47,11 +48,11 @@ class PurchaseController extends FOSRestController
      * @return View|\Symfony\Component\Form\Form
      * @Route("")
      * @Method("POST")
-     * @Rest\View(serializerGroups={"list"})
+     * @Rest\View(serializerGroups={"purchase_create"})
      */
     public function createAction(Request $request)
     {
-        $purchase = $this->get('app.factory.purchase')->create();
+        $purchase = $this->get(PurchaseFactory::class)->create();
         $form = $this->createForm(PurchaseType::class, $purchase);
         $form->handleRequest($request);
         if ($form->isValid() && $form->isSubmitted()){

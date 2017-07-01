@@ -5,15 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * Product
+ * Store
  *
- * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ * @ORM\Table(name="store")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\StoreRepository")
  */
-class Product
+class Store
 {
     /**
      * @var int
@@ -27,20 +27,21 @@ class Product
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @JMS\Groups({"list","purchase_create"})
-     * @Assert\NotBlank();
-     * @Assert\Type("string")
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchase", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchase", mappedBy="store")
      */
     private $purchases;
 
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
@@ -61,7 +62,7 @@ class Product
      *
      * @param string $name
      *
-     * @return Product
+     * @return Store
      */
     public function setName($name)
     {
@@ -69,7 +70,6 @@ class Product
 
         return $this;
     }
-
     /**
      * Get name
      *
@@ -83,9 +83,9 @@ class Product
     /**
      * Add purchase
      *
-     * @param \AppBundle\Entity\Purchase $purchase
+     * @param Purchase $purchase
      *
-     * @return Product
+     * @return Store
      */
     public function addPurchase(Purchase $purchase)
     {

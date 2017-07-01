@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Purchase
@@ -19,7 +20,7 @@ class Purchase
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @JMS\Groups({"list"})
+     * @JMS\Groups({"list", "purchase_create"})
      */
     private $id;
 
@@ -27,26 +28,33 @@ class Purchase
      * @var \DateTime
      *
      * @ORM\Column(name="purchasedAt", type="date")
-     * @JMS\Groups({"list"})
+     * @JMS\Groups({"list", "purchase_create"})
      */
     private $purchasedAt;
 
     /**
      * @var Product
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="purchases")
+     * @JMS\Groups({"purchase_create"})
+     * @Assert\NotNull()
      */
     private $product;
 
     /**
      * @var float
      * @ORM\Column(name="quantity",type="decimal",precision=10,scale=2)
-     * @JMS\Groups({"list"})
+     * @JMS\Groups({"list","purchase_create"})
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      */
     private $quantity;
 
     /**
      * @var Store
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Store", inversedBy="purchases")
+     * @JMS\Groups({"purchase_create"})
+     * @Assert\NotNull()
      */
     private $store;
 
